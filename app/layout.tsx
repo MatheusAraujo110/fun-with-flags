@@ -7,7 +7,7 @@ const notoSans = Noto_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Fun with Flags",
+  title: "Diversão com Bandeiras",
   description: "Flas of the world",
 };
 
