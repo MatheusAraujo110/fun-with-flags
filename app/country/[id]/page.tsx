@@ -10,12 +10,31 @@ type Params = {
     id: string
 }
 
+type DetailedCountry = {
+    cca3: string
+    flags: {
+        svg: string
+    }
+    name: {
+        common: string
+    }
+    capital: string[]
+    region: string
+    population: number
+    languages: Record<string, string>  // aqui eu passo a minha chave e valor.
+    currencies: Record<string, {  // aqui eu passo a minha chave e dentro da {} eu passo o meu objeto.
+        name: string
+        symbol: string
+    }>
+    tld: string[]
+    borders: string[]
+}
+
 export default function Country() {
-    const name = "Brazil"
     const params = useParams<Params>()
 
     const [id, setId] = useState<string | null>(null)
-    const [country, setCountry] = useState<Country>()
+    const [country, setCountry] = useState<DetailedCountry>()
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
 
@@ -46,6 +65,15 @@ export default function Country() {
     if (error) return <div>{error}</div>
 
     console.log(country)
+    const { flags, name, capital, region, population, languages, currencies, tld, borders } = country ?? {}
+
+    const flag = flags?.svg
+    const countryName = name?.common
+    const capitalName = capital?.[0] ?? "No Capital"
+    const languageName = Object.values(languages ?? {}).join(", ")
+    const currencyName = Object.values(currencies ?? {}).map(({ name, symbol }) => `${name} (${symbol})`).join(", ")
+    const [topLevelDomain] = tld ?? []
+    const borderIds = borders?.join(", ") ?? "No Borders"
 
     return (
         <>
@@ -58,50 +86,46 @@ export default function Country() {
                 </Link>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-6">
-                <div className="w-full md:max-w-[400px]">
+                <div className="flex items-center md:max-w-[400px]">
                     <Image
-                        src={"/flag-placeholder.svg"}
-                        alt={`flag of ${name}`}
-                        className="w-full h-full object-cover"
+                        src={flag || "/flag-placeholder.svg"}
+                        alt={`flag of ${countryName}`}
+                        className="max-h-88 object-cover rounded-lg"
                         width={500}
                         height={300}
+                        priority
                     />                </div>
                 <div className="p-6 text-sm text-gray-600">
-                    <h2 className="text-xl font-semibold mb-4">Brazil ({id})</h2>
+                    <h2 className="text-xl font-semibold mb-4">{countryName} ({id})</h2>
                     <div className="space-y-2">
                         <div className="flex items-center gap-1">
                             <span className="font-semibold">Capital: </span>
-                            <span>Brasilía</span>
+                            <span>{capitalName}</span>
                         </div>
                         <div className="flex items-center gap-1">
                             <span className="font-semibold">Região: </span>
-                            <span>Sofh América</span>
+                            <span>{region}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                            <span className="font-semibold">População: </span>
+                            <span>{population}</span>
                         </div>
                         <div className="flex items-center gap-1">
                             <span className="font-semibold">Languages: </span>
-                            <span>Portuguese</span>
+                            <span>{languageName}</span>
                         </div>
                         <div className="flex items-center gap-1">
                             <span className="font-semibold">Currency: </span>
-                            <span>BRL</span>
+                            <span>{currencyName}</span>
                         </div>
                         <div className="flex items-center gap-1">
                             <span className="font-semibold">Top Level Domain: </span>
-                            <span>.br</span>
+                            <span>{topLevelDomain}</span>
                         </div>
                         <div className="flex items-center gap-1">
                             <span className="font-semibold">Borders: </span>
                             <span>
-                                ARG,
-                                BOL,
-                                COL,
-                                GUF,
-                                GUY,
-                                PRY,
-                                PER,
-                                SUR,
-                                URY,
-                                VEN
+                                {borderIds}
                             </span>
                         </div>
                     </div>
