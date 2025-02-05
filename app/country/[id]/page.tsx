@@ -64,7 +64,6 @@ export default function Country() {
     if (loading) return <div>loading...</div>
     if (error) return <div>{error}</div>
 
-    console.log(country)
     const { flags, name, capital, region, population, languages, currencies, tld, borders } = country ?? {}
 
     const flag = flags?.svg
@@ -73,7 +72,7 @@ export default function Country() {
     const languageName = Object.values(languages ?? {}).join(", ")
     const currencyName = Object.values(currencies ?? {}).map(({ name, symbol }) => `${name} (${symbol})`).join(", ")
     const [topLevelDomain] = tld ?? []
-    const borderIds = borders?.join(", ") ?? "No Borders"
+    const borderIds = borders ?? [] // se nenhuma borda, retorna um array vazio.
 
     return (
         <>
@@ -81,7 +80,7 @@ export default function Country() {
                 <Link href="/">
                     <button
                         className="bg-gray-200 hover:bg-gray-300 font-semibold py-2 px-4 rounded">
-                        Back
+                        Voltar
                     </button>
                 </Link>
             </div>
@@ -93,44 +92,45 @@ export default function Country() {
                         className="max-h-88 object-cover rounded-lg"
                         width={500}
                         height={300}
-                        priority
-                    />                </div>
+                        priority />
+                </div>
                 <div className="p-6 text-sm text-gray-600">
                     <h2 className="text-xl font-semibold mb-4">{countryName} ({id})</h2>
                     <div className="space-y-2">
-                        <div className="flex items-center gap-1">
-                            <span className="font-semibold">Capital: </span>
-                            <span>{capitalName}</span>
+                        <div>
+                            <span className="font-semibold">Capital: </span> {capitalName}
                         </div>
-                        <div className="flex items-center gap-1">
-                            <span className="font-semibold">Região: </span>
-                            <span>{region}</span>
+                        <div>
+                            <span className="font-semibold">Região: </span> {region}
                         </div>
-                        <div className="flex items-center gap-1">
-                            <span className="font-semibold">População: </span>
-                            <span>{population}</span>
+                        <div>
+                            <span className="font-semibold">População: </span> {population}
                         </div>
-                        <div className="flex items-center gap-1">
-                            <span className="font-semibold">Languages: </span>
-                            <span>{languageName}</span>
+                        <div>
+                            <span className="font-semibold">Languages: </span> {languageName}
                         </div>
-                        <div className="flex items-center gap-1">
-                            <span className="font-semibold">Currency: </span>
-                            <span>{currencyName}</span>
+                        <div>
+                            <span className="font-semibold">Currency: </span>{""}
+                            {currencyName}
                         </div>
-                        <div className="flex items-center gap-1">
-                            <span className="font-semibold">Top Level Domain: </span>
-                            <span>{topLevelDomain}</span>
+                        <div>
+                            <span className="font-semibold">Top Level Domain: </span>{""}
+                            {topLevelDomain}
                         </div>
-                        <div className="flex items-center gap-1">
-                            <span className="font-semibold">Borders: </span>
-                            <span>
-                                {borderIds}
-                            </span>
+                        <div className="md:max-w-80">
+                            <span className="font-semibold">Borders: </span>{""}
+                            {borderIds.length > 0 ? borderIds.map((borderId) => (<Link key={borderId} href={`/country/${borderId}`}>
+                                <button
+                                    className="bg-gray-200 hover:bg-gray-300 text-xs mb-[6px] mr-[6px] py-[1.5px] px-[6px] rounded">
+                                    {borderId}
+                                </button>
+                            </Link>
+                            ))
+                                : "Nenhum"}
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     )
 }
