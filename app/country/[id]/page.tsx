@@ -5,6 +5,7 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import { countriesApi } from "../../services"
 import { useParams } from "next/navigation"
+import { formatNumber } from "../../utils"
 
 type Params = {
     id: string
@@ -17,6 +18,7 @@ type DetailedCountry = {
     }
     name: {
         common: string
+        official: string
     }
     capital: string[]
     region: string
@@ -67,7 +69,7 @@ export default function Country() {
     const { flags, name, capital, region, population, languages, currencies, tld, borders } = country ?? {}
 
     const flag = flags?.svg
-    const countryName = name?.common
+    const { common: countryName, official: officialName } = name ?? {}
     const capitalName = capital?.[0] ?? "No Capital"
     const languageName = Object.values(languages ?? {}).join(", ")
     const currencyName = Object.values(currencies ?? {}).map(({ name, symbol }) => `${name} (${symbol})`).join(", ")
@@ -98,13 +100,16 @@ export default function Country() {
                     <h2 className="text-xl font-semibold mb-4">{countryName} ({id})</h2>
                     <div className="space-y-2">
                         <div>
+                            <span className="font-semibold">Official Name: </span> {officialName}
+                        </div>
+                        <div>
                             <span className="font-semibold">Capital: </span> {capitalName}
                         </div>
                         <div>
                             <span className="font-semibold">Região: </span> {region}
                         </div>
                         <div>
-                            <span className="font-semibold">População: </span> {population}
+                            <span className="font-semibold">População: </span> {formatNumber(population)}
                         </div>
                         <div>
                             <span className="font-semibold">Languages: </span> {languageName}

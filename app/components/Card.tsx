@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { formatNumber } from "../utils/formatters"
 
 type CardProps = {
     index: number
@@ -32,7 +33,7 @@ const Card = ({ index, flag, name, capital, region, population }: CardProps) => 
                         <span className="font-semibold">Região: </span> {region}
                     </div>
                     <div>
-                        <span className="font-semibold">População: </span> {population.toLocaleString('en-US')}
+                        <span className="font-semibold">População: </span>{""} {formatNumber(population)}
                     </div>
                 </div>
             </div>
