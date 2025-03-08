@@ -43,7 +43,7 @@ export default function Home() {
     if (loading) return <div>loading...</div>
     if (error) return <div>{error}</div>
 
-    const regions = ["All regions",... new Set(countries.map(({ region }) => region))]
+    const regions = ["All regions", ... new Set(countries.map(({ region }) => region))]
 
     const sortedCountries = countries.sort((a, b) => a.name.common.localeCompare(b.name.common, 'en-US'))
 
@@ -56,7 +56,7 @@ export default function Home() {
 
     return (
         <>
-            <div className="flex justify-between mb-8">
+            <div className="flex flex-col-reverse gap-4 md:flex-row justify-between mb-8">
                 <Search
                     count={filteredCountries.length}
                     search={serach}
