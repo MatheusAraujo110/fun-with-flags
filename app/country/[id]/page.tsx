@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import { countriesApi } from "../../services"
 import { useParams } from "next/navigation"
 import { formatNumber } from "../../utils"
+import { Error, Loading } from "../../components"
 
 type Params = {
     id: string
@@ -63,8 +64,8 @@ export default function Country() {
         }
     }, [id])
 
-    if (loading) return <div>loading...</div>
-    if (error) return <div>{error}</div>
+    if (loading) return <Loading {...{ text: "visitando país..." }} />
+    if (error) return <Error text={error} />
 
     const { flags, name, capital, region, population, languages, currencies, tld, borders } = country ?? {}
 
