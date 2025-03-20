@@ -1,7 +1,7 @@
 'use client'
 
-import { Card, Error, Grid, Loading, Search, Select } from "./components"
-import { countriesApi } from "./services"
+import { Card, Error, Grid, Loading, Search, Select } from "@/components"
+import { countriesApi } from "@/services"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 

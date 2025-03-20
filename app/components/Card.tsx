@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { formatNumber } from "../utils/formatters"
+import { formatNumber } from "@/utils"
 
 type CardProps = {
     index: number

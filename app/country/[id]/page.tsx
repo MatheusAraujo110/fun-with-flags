@@ -3,10 +3,10 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { countriesApi } from "../../services"
+import { countriesApi } from "@/services"
 import { useParams } from "next/navigation"
-import { formatNumber } from "../../utils"
-import { Error, Loading } from "../../components"
+import { formatNumber } from "@/utils/formatters"
+import { Error, Loading } from "@/components"
 
 type Params = {
     id: string
