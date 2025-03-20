@@ -1,6 +1,8 @@
 // https://restcountries.com/v3.1/  Essa é base da api.
 // /all?fields=cca3,flags,name,capital,region,population  Esse é meu endpoint.
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL
+
 const apiClient = (baseUrl) => ({
     async get(endpoint) {
         try {
@@ -20,7 +22,7 @@ const apiClient = (baseUrl) => ({
 
 const baseFields = "cca3,flags,name,capital,region,population"
 
-const api = apiClient("https://restcountries.com/v3.1")
+const api = apiClient(apiUrl)
 
 const countriesApi = {
     getAll: () => api.get(`/all?fields=${baseFields}`),
